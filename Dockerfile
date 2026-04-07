@@ -32,7 +32,7 @@ RUN poetry config virtualenvs.in-project true && \
     poetry install --no-root
 
 
-COPY .env /ort/.env
+# COPY .env_example /ort/.env
 
 ### final stage
 ###

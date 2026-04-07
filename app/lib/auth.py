@@ -21,8 +21,6 @@ from app.lib.cache import cache
 from app.config import settings
 
 
-ACCESS_TOKEN_EXPIRE_MINUTES=1440
-
 oauth2_scheme = OAuth2PasswordBearer(settings.TOKEN_URL)
 
 
@@ -67,14 +65,10 @@ async def get_current_user( security_scopes: SecurityScopes,
     try:
         payload = decode(token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM])
         username: str = payload.get("sub")
-        expires: int = payload.get("exp")
 
-        if datetime.fromtimestamp(expires, tz=timezone.utc) < datetime.now(timezone.utc):
+        if username is None:
             raise credentials_exception
-        
-        if username is None or expires is None:
-            raise credentials_exception
-        logger.debug(f"Username: {username} Expires: {expires}")    
+        logger.debug(f"Username: {username}")    
         user = await cache.get_object(username)
   
         if user:

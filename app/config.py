@@ -10,7 +10,7 @@ from typing import Literal
 
 class Settings(BaseSettings):
     project_name: str = "ort"
-    model_config = SettingsConfigDict(_env_file='.env', _env_file_encoding='utf-8')
+    model_config = SettingsConfigDict(env_file='.env', env_file_encoding='utf-8', env_ignore_empty=True, extra='ignore')
     DATABASE_URI: str
     TOKEN_URL: str
     SQL_ECHO: bool = False
@@ -36,6 +36,6 @@ class Settings(BaseSettings):
     REGISTRATION_ENABLED: bool = True
     MAX_IMAGE_SIZE: int = 2097152  # 2 MB
 
-settings = Settings(_env_file='.env', _env_file_encoding='utf-8')
+settings = Settings()
 
 
